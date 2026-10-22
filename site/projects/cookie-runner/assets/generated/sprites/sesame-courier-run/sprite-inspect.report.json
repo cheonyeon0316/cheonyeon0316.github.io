@@ -1,0 +1,53 @@
+{
+  "ok": true,
+  "engine": "component-row",
+  "kind": "sprite-gen-inspect-report",
+  "run_dir": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier-run",
+  "states": [
+    "run"
+  ],
+  "thresholds": {
+    "histogram_min": 0.0,
+    "dhash_min": 0.55,
+    "motion_min": 0.01
+  },
+  "rows": [
+    {
+      "state": "run",
+      "source": "frames",
+      "expected_frames": 8,
+      "found_frames": 8,
+      "natural_pose_count": 8,
+      "frame_files": [
+        "frames/run/frame-0.png",
+        "frames/run/frame-1.png",
+        "frames/run/frame-2.png",
+        "frames/run/frame-3.png",
+        "frames/run/frame-4.png",
+        "frames/run/frame-5.png",
+        "frames/run/frame-6.png",
+        "frames/run/frame-7.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9344225824056601,
+          "mean": 0.9585173019036207
+        },
+        "dhash_similarity": {
+          "min": 0.796875,
+          "mean": 0.9107142857142857
+        },
+        "motion_presence": 0.08549418302477241,
+        "centroid_sigma": {
+          "x": 6.656797710211669,
+          "y": 2.414659754090846
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

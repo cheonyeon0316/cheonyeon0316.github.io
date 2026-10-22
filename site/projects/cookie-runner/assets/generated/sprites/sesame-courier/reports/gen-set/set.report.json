@@ -1,0 +1,26 @@
+{
+  "kind": "sprite-gen-gen-set-report",
+  "run_dir": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier",
+  "states": [
+    "run"
+  ],
+  "ok": 1,
+  "failed": [],
+  "not_started": [],
+  "items": [
+    {
+      "state": "run",
+      "out": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\raw\\run.png",
+      "report": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\reports\\gen-set\\run.json",
+      "refs": [
+        "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\base-source.png",
+        "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\references\\layout-guides\\run.png"
+      ],
+      "provider": "codex",
+      "provider_resolved_from": "explicit",
+      "auth_source": "codex-login",
+      "elapsed_seconds": 41.9,
+      "ok": true
+    }
+  ]
+}

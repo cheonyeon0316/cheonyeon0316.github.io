@@ -1,0 +1,102 @@
+{
+  "kind": "sprite-gen-image-report",
+  "provider": "codex",
+  "prompt": "Create a full-body neutral standing idle reference of the exact same original black-sesame macaron cookie courier in the attached image. Preserve the character identity and design: warm cocoa macaron body with black sesame seeds, pale cream frosting face, large brown eyes, white baker toque with plum jewel, glossy berry-red scarf. Pose calmly upright, facing right in three-quarter side view, feet planted on one shared ground line, arms relaxed, cheerful small smile. Keep the whole character visible, clean readable silhouette, polished soft 3D mobile-game rendering, transparent background. Do not add props, shadows, text, interface, other characters, or logos.\n\nThe subject must be facing right (toward the right edge of the image), regardless of the reference image's orientation. Preserve the subject's design.\n\nThe entire background is one perfectly flat, uniform pure green chroma-key fill (#00FF00) with no gradient, no texture, no shadow and no ground line.",
+  "out": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\base-idle.png",
+  "raw": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\base-idle.png.raw.png",
+  "raw_bytes": 1699900,
+  "elapsed_seconds": 49.579,
+  "model": null,
+  "session_id": "01a163d3-c48f-7763-b2b3-6cbf97b10e40",
+  "refs": [
+    "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\sesame-courier.png"
+  ],
+  "transparent": true,
+  "alpha": {
+    "strategy": "chroma",
+    "strategy_source": "refs-attached",
+    "key_background": {
+      "injected": true,
+      "key": "green"
+    },
+    "raw_alpha": {
+      "mode": "RGB",
+      "has_alpha_band": false,
+      "verdict": "no-alpha",
+      "alpha_zero_pct": 0.0,
+      "border_alpha_zero_pct": 0.0
+    },
+    "out": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\base-idle.png",
+    "mode": "RGBA",
+    "method": "ycbcr",
+    "size": "1254x1254",
+    "key": "green",
+    "keyed_pixels": 994757,
+    "fringe_pixels": 0,
+    "cleaned_transparent_rgb_pixels": 3760,
+    "alpha_zero_pct": 63.26,
+    "stale_transparent_rgb_pixels": 0
+  },
+  "chroma": {
+    "out": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier\\base-idle.png",
+    "mode": "RGBA",
+    "method": "ycbcr",
+    "size": "1254x1254",
+    "key": "green",
+    "keyed_pixels": 994757,
+    "fringe_pixels": 0,
+    "cleaned_transparent_rgb_pixels": 3760,
+    "alpha_zero_pct": 63.26,
+    "stale_transparent_rgb_pixels": 0
+  },
+  "extra": {
+    "auth_source": "codex-login",
+    "inline_results": 1,
+    "rollout_cleaned": true,
+    "transparent_background_reported": false,
+    "trim_alpha": {
+      "bbox": [
+        113,
+        97,
+        1058,
+        1173
+      ],
+      "before": [
+        1254,
+        1254
+      ],
+      "after": [
+        945,
+        1076
+      ],
+      "margin_px": {
+        "left": 113,
+        "top": 97,
+        "right": 196,
+        "bottom": 81
+      }
+    },
+    "facing": {
+      "transport": "codex-exec",
+      "auth_source": "codex-login",
+      "direction": "front",
+      "confidence": 0.98,
+      "confidence_source": "model-self-report",
+      "model": null,
+      "requested": "right",
+      "fix": "none",
+      "action": "none",
+      "final_direction": "front",
+      "final_direction_source": "observation",
+      "reason": "not-lateral"
+    },
+    "prompt_notes": [
+      {
+        "kind": "repeat",
+        "about": "facing",
+        "text": "the text says \"facing right\" and so does the engine's sentence; it is said twice"
+      }
+    ]
+  },
+  "provider_resolved_from": "explicit"
+}

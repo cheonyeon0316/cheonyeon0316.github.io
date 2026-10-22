@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "kind": "sprite-gen-request",
+  "engine": "component-row",
+  "character": {
+    "id": "sesame-courier-run",
+    "description": "Glossy black-sesame macaron cookie courier with cream face, white baker toque, plum jewel and berry-red scarf, matching the attached base image.",
+    "base_image": "base-source.png"
+  },
+  "cell": {
+    "shape": "square",
+    "width": 256,
+    "height": 256,
+    "safe_margin_x": 24,
+    "safe_margin_y": 24,
+    "size": 256,
+    "safe_margin": 24
+  },
+  "chroma_key": {
+    "name": "green",
+    "hex": "#00FF00",
+    "rgb": [
+      0,
+      255,
+      0
+    ],
+    "selection": "manual"
+  },
+  "states": {
+    "run": {
+      "frames": 8,
+      "fps": 10,
+      "loop": true,
+      "action": "right-facing running cycle with eight clearly distinct alternating gait poses, lively foot lift and contact, gentle body bounce, the berry scarf tails fluttering backward; return to a pose close to frame one for a seamless loop"
+    }
+  },
+  "style": "match the attached base/anchor reference image EXACTLY: same pixel density (logical pixel block size), same body proportions, same outline weight, same palette, same shading style, same level of detail. Do not restyle, do not change proportions, do not add or remove detail density.",
+  "layout": "taxonomy/v1",
+  "fit": {
+    "ground_frames": true,
+    "align_x": "foot-centroid",
+    "align_y": "bottom"
+  },
+  "chroma": {
+    "mode": "rgb",
+    "unmix_reach": 4,
+    "spill_max_fraction": 0.005
+  }
+}

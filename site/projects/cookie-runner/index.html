@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#201522">
+    <meta name="description" content="젤리를 모으고 장애물을 부수며 달리는 작은 쿠키 러너 게임입니다.">
+    <title>쿠키 러너 — Jelly Dash</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif;
+        color: #fff6dc;
+        background: #201522;
+        --cream: #fff2cf;
+        --caramel: #e9a653;
+        --berry: #ff6f86;
+        --mint: #91e6c1;
+        --ink: #201522;
+      }
+      * { box-sizing: border-box; }
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        padding: clamp(1rem, 4vw, 3rem);
+        background:
+          radial-gradient(ellipse at 12% 8%, #563247 0, transparent 34rem),
+          radial-gradient(ellipse at 92% 88%, #243b43 0, transparent 32rem),
+          #201522;
+      }
+      main { width: min(100%, 70rem); margin: 0 auto; }
+      .eyebrow { margin: 0 0 .4rem; color: var(--mint); font-size: .75rem; font-weight: 900; letter-spacing: .22em; text-transform: uppercase; }
+      h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1; letter-spacing: -.055em; }
+      .intro { max-width: 38rem; margin: .75rem 0 1.5rem; color: #d7c7d2; line-height: 1.6; }
+      .game-panel { overflow: hidden; border: 1px solid #795465; border-radius: 1.4rem; background: #2b1d2b; box-shadow: 0 1.5rem 5rem #09060b88; }
+      .hud { display: flex; align-items: center; gap: .7rem; padding: .85rem 1rem; background: #2b1d2b; }
+      .stat { min-width: 6.5rem; padding: .55rem .8rem; border: 1px solid #654657; border-radius: .85rem; background: #392839; }
+      .stat, .gauge-wrap { border: 0; border-radius: 0; background: url("assets/ui/hud-panel.svg") center / 100% 100% no-repeat; filter: drop-shadow(0 .3rem .6rem #09051d88); }
+      .stat-label { display: block; color: #c8b6c3; font-size: .65rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+      .stat-value { display: flex; align-items: center; gap: .35rem; margin-top: .12rem; font-size: 1.1rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+      .gauge-wrap { flex: 1; min-width: 8rem; padding: .55rem 1rem; }
+      .gauge-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; color: #e7d9e2; font-size: .68rem; font-weight: 900; letter-spacing: .08em; }
+      .gauge-title { display: inline-flex; align-items: center; gap: .32rem; }
+      .gauge-title img { width: 1.2rem; height: 1.2rem; }
+      .pause-button { display: grid; flex: 0 0 3.8rem; place-items: center; width: 3.8rem; height: 3.8rem; padding: 0; border: 0; border-radius: 50%; background: transparent; box-shadow: none; }
+      .pause-button img { width: 100%; height: 100%; }
+      .pause-button:disabled { opacity: .5; cursor: default; }
+      .pause-button:not(:disabled):hover { transform: scale(1.06); background: transparent; }
+      .title-logo { display: block; width: min(19rem, 58vw); height: auto; margin: .25rem 0 .25rem -.4rem; }
+      .gauge-pips { display: grid; grid-template-columns: repeat(7, 1fr); gap: .28rem; margin-top: .4rem; }
+      .pip { height: .45rem; border-radius: 99px; background: #624456; transition: background .18s, box-shadow .18s; }
+      .pip.filled { background: var(--mint); box-shadow: 0 0 .6rem #91e6c177; }
+      .pip.ready { background: var(--caramel); box-shadow: 0 0 .7rem #e9a653aa; }
+      .playfield { position: relative; aspect-ratio: 16 / 8.2; min-height: 16rem; background: #211642; }
+      canvas { display: block; width: 100%; height: 100%; }
+      .overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 1rem; background: #20152235; }
+      .overlay[hidden] { display: none; }
+      .dialog { width: min(100%, 24rem); padding: 1.25rem; border: 1px solid #f5c67b88; border-radius: 1.2rem; background: #2a1c2bea; box-shadow: 0 1rem 3rem #20152266; text-align: center; backdrop-filter: blur(10px); }
+      .dialog-kicker { margin: 0; color: var(--mint); font-size: .7rem; font-weight: 900; letter-spacing: .2em; }
+      .dialog h2 { margin: .35rem 0; font-size: clamp(1.5rem, 5vw, 2.25rem); line-height: 1.05; }
+      .dialog p { margin: .5rem 0 1rem; color: #e5d8df; line-height: 1.5; }
+      button { min-height: 2.8rem; padding: .7rem 1.2rem; border: 0; border-radius: .8rem; color: #2a1c22; background: var(--caramel); font: inherit; font-weight: 1000; cursor: pointer; box-shadow: 0 .25rem 0 #ae6d31; }
+      button:hover { background: #ffc476; transform: translateY(-1px); }
+      button:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+      .below { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem 1.5rem; padding: .85rem 1rem; color: #d7c7d2; font-size: .8rem; }
+      .keys { display: flex; flex-wrap: wrap; gap: .45rem .8rem; }
+      .key-hint { display: inline-flex; align-items: center; gap: .28rem; }
+      .key-hint img { width: 1.2rem; height: 1.2rem; filter: drop-shadow(0 0 .25rem #9b69ff77); }
+      .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+      kbd { display: inline-block; min-width: 1.45rem; margin-right: .2rem; padding: .1rem .35rem; border: 1px solid #795d70; border-radius: .35rem; color: var(--cream); background: #392839; font: inherit; font-size: .72rem; font-weight: 900; text-align: center; }
+      @media (max-width: 560px) {
+        body { padding: 1rem .65rem; }
+        .hud { flex-wrap: wrap; gap: .45rem; padding: .6rem; }
+        .stat { flex: 1; min-width: 4.5rem; padding: .4rem .55rem; }
+        .gauge-wrap { flex-basis: 100%; }
+        .playfield { aspect-ratio: 4 / 3; min-height: 15rem; }
+        .below { font-size: .72rem; }
+      }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">BAKERY RUN · 01</p>
+      <h1 class="sr-only">Jelly Dash</h1>
+      <img class="title-logo" src="assets/ui/jelly-dash-wordmark.svg" alt="">
+      <p class="intro">바삭한 쿠키와 함께 달려요. 젤리 일곱 개를 모으면 강력한 공격이 준비됩니다.</p>
+
+      <section class="game-panel" aria-label="쿠키 러너 게임">
+        <div class="hud" aria-label="게임 정보">
+          <div class="stat"><span class="stat-label">SCORE</span><span class="stat-value" id="score">000000</span></div>
+          <div class="stat"><span class="stat-label">JELLIES</span><span class="stat-value"><span aria-hidden="true">✦</span><span id="jellies">0</span></span></div>
+          <div class="gauge-wrap" aria-label="공격 게이지">
+            <div class="gauge-head"><span class="gauge-title"><img src="assets/ui/blast-icon.svg" alt="">COOKIE BLAST</span><span id="gauge-label">0 / 7</span></div>
+            <div class="gauge-pips" id="gauge" role="meter" aria-label="공격 게이지" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0">
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+            </div>
+          </div>
+          <button class="pause-button" id="pause-button" type="button" aria-label="일시정지" title="일시정지" disabled><img src="assets/ui/pause-button.svg" alt=""></button>
+        </div>
+        <div class="playfield">
+          <canvas id="game" width="960" height="492" role="img" aria-label="쿠키 러너 플레이 화면"></canvas>
+          <div class="overlay" id="overlay" aria-live="polite">
+            <div class="dialog">
+              <p class="dialog-kicker" id="dialog-kicker">READY, COOKIE?</p>
+              <h2 id="dialog-title">젤리 러시!</h2>
+              <p id="dialog-copy">점프로 피하고, 젤리를 모아 장애물을 날려버려요.</p>
+              <button id="start-button" type="button">달리기 시작</button>
+            </div>
+          </div>
+        </div>
+        <div class="below">
+          <div class="keys" aria-label="키보드 조작">
+            <span class="key-hint"><img src="assets/ui/jump-icon.svg" alt=""><kbd>Space</kbd>/<kbd>↑</kbd> 점프</span>
+            <span class="key-hint"><img src="assets/ui/slide-icon.svg" alt=""><kbd>↓</kbd> 누르는 동안 슬라이드</span>
+            <span class="key-hint"><img src="assets/ui/blast-icon.svg" alt=""><kbd>X</kbd> 공격</span>
+          </div>
+          <span id="status" role="status">준비 중</span>
+        </div>
+      </section>
+    </main>
+    <script>
+      const canvas = document.querySelector("#game");
+      const ctx = canvas.getContext("2d");
+      const overlay = document.querySelector("#overlay");
+      const statusText = document.querySelector("#status");
+      const startButton = document.querySelector("#start-button");
+      const pauseButton = document.querySelector("#pause-button");
+      const assets = {
+        background: new Image(),
+        player: new Image(),
+        playerSlide: new Image(),
+        spriteAtlas: new Image(),
+        jelly: new Image(),
+        berryCrate: new Image(),
+        crystalBar: new Image(),
+        cookieBlast: new Image()
+      };
+      const spriteCells = {
+        idle: { row: 0, frames: 4, fps: 4, loop: true },
+        run: { row: 1, frames: 8, fps: 10, loop: true },
+        jump: { row: 2, frames: 4, fps: 8, loop: false },
+        slide: { row: 3, frames: 4, fps: 8, loop: false },
+        attack: { row: 4, frames: 4, fps: 10, loop: false }
+      };
+      const spriteCellWidth = 256;
+      const spriteCellHeight = 320;
+      const spriteAnimation = {
+        manifest: {
+          cell: { width: spriteCellWidth, height: spriteCellHeight },
+          animation: { rows: spriteCells },
+          frame_layout: {
+            rows: Object.fromEntries(Object.entries(spriteCells).map(([state, spec]) => [
+              state,
+              Array.from({ length: spec.frames }, (_, index) => ({
+                x: index * spriteCellWidth,
+                y: spec.row * spriteCellHeight,
+                w: spriteCellWidth,
+                h: spriteCellHeight
+              }))
+            ]))
+          }
+        }
+      };
+      assets.background.src = "assets/crystal-cavern.png";
+      assets.player.src = "assets/sesame-courier.png";
+      assets.playerSlide.src = "assets/sesame-courier-slide.png";
+      assets.spriteAtlas.src = "assets/generated/sprites/sesame-courier/sprite-sheet-alpha.png";
+      assets.jelly.src = "assets/crystal-jelly.png";
+      assets.berryCrate.src = "assets/berry-crate.svg";
+      assets.crystalBar.src = "assets/mint-crystal-bar.svg";
+      assets.cookieBlast.src = "assets/cookie-blast.svg";
+      fetch("assets/generated/sprites/sesame-courier/manifest.json")
+        .then((response) => response.ok ? response.json() : null)
+        .then((manifest) => { if (manifest) spriteAnimation.manifest = manifest; })
+        .catch(() => {});
+      const game = { state: "ready", width: canvas.width, height: canvas.height, elapsed: 0, scroll: 0, distance: 0, speed: 280, lastFrame: 0, attackCharge: 0, nextObstacleDistance: 0, nextJellyDistance: 250, jellies: 0, score: 0, attackFlash: 0, attackAnimationStartedAt: -Infinity, jumpAnimationStartedAt: -Infinity };
+      const player = { x: 182, jumpHeight: 0, jumpVelocity: 0, slideHeld: false, slideStartedAt: -Infinity, slideExitUntil: 0, onGround: true };
+      const obstacles = [];
+      const jellies = [];
+      const ATTACK_RANGE = 250;
+
+      function animationFrame(state, age, maxFrame = Infinity) {
+        const manifest = spriteAnimation.manifest;
+        const frames = manifest?.frame_layout?.rows?.[state];
+        const row = manifest?.animation?.rows?.[state];
+        if (!frames?.length || !row) return null;
+        const frameIndex = row.loop
+          ? Math.floor(Math.max(0, age) * row.fps) % frames.length
+          : Math.min(frames.length - 1, maxFrame, Math.floor(Math.max(0, age) * row.fps));
+        return { frame: frames[frameIndex], frames, row };
+      }
+
+      function drawScene() {
+        const { width: w, height: h } = game;
+        const groundY = h * .81;
+        if (assets.background.complete && assets.background.naturalWidth) {
+          ctx.drawImage(assets.background, 0, 0, w, h);
+        } else {
+          const fallback = ctx.createLinearGradient(0, 0, 0, h);
+          fallback.addColorStop(0, "#4b27a0"); fallback.addColorStop(1, "#162447");
+          ctx.fillStyle = fallback; ctx.fillRect(0, 0, w, h);
+        }
+        ctx.fillStyle = "#0b123c8f";
+        ctx.fillRect(0, 0, w, h);
+        const vignette = ctx.createRadialGradient(w * .5, h * .45, h * .12, w * .5, h * .45, w * .7);
+        vignette.addColorStop(0, "#10144200"); vignette.addColorStop(1, "#090d2f66");
+        ctx.fillStyle = vignette; ctx.fillRect(0, 0, w, h);
+        const caveShade = ctx.createLinearGradient(0, groundY - 35, 0, h);
+        caveShade.addColorStop(0, "#25104b00"); caveShade.addColorStop(1, "#160d36cc");
+        ctx.fillStyle = caveShade; ctx.fillRect(0, groundY - 35, w, h - groundY + 35);
+
+        const groundOffset = game.scroll % 72;
+        const track = ctx.createLinearGradient(0, groundY, 0, h);
+        track.addColorStop(0, "#3d216e"); track.addColorStop(1, "#211642");
+        ctx.fillStyle = track; ctx.fillRect(0, groundY, w, h - groundY);
+        ctx.save();
+        ctx.shadowColor = "#62f4ff"; ctx.shadowBlur = 15;
+        ctx.fillStyle = "#70f5f4"; ctx.fillRect(0, groundY - 4, w, 5);
+        ctx.restore();
+        ctx.fillStyle = "#e873ff"; ctx.globalAlpha = .9; ctx.fillRect(0, groundY + 3, w, 2); ctx.globalAlpha = 1;
+        ctx.fillStyle = "#8deeff";
+        for (let x = -72; x < w + 72; x += 72) {
+          const markX = x - groundOffset;
+          ctx.beginPath(); ctx.moveTo(markX, groundY + 30); ctx.lineTo(markX + 27, groundY + 30);
+          ctx.lineTo(markX + 18, groundY + 34); ctx.lineTo(markX - 9, groundY + 34); ctx.closePath(); ctx.fill();
+        }
+        ctx.globalAlpha = .45;
+        for (let x = 24; x < w; x += 118) {
+          const crystalX = ((x - game.scroll * .16) % (w + 36) + w + 36) % (w + 36) - 18;
+          ctx.fillStyle = x % 2 ? "#57e9ff" : "#e568ff";
+          ctx.beginPath(); ctx.moveTo(crystalX, groundY - 4); ctx.lineTo(crystalX + 6, groundY - 16);
+          ctx.lineTo(crystalX + 12, groundY - 4); ctx.closePath(); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
+        obstacles.forEach(drawObstacle);
+        jellies.forEach(drawJelly);
+        if (game.attackFlash > 0) {
+          ctx.save();
+          ctx.globalAlpha = Math.min(1, game.attackFlash * 4);
+          const blastY = groundY - 100;
+          if (assets.cookieBlast.complete && assets.cookieBlast.naturalWidth) {
+            ctx.drawImage(assets.cookieBlast, player.x + 22, blastY, ATTACK_RANGE, 88);
+          } else {
+            ctx.fillStyle = "#9ffaff"; ctx.shadowColor = "#d25dff"; ctx.shadowBlur = 24;
+            ctx.beginPath(); ctx.roundRect(player.x + 24, groundY - 66, ATTACK_RANGE, 30, 15); ctx.fill();
+          }
+          ctx.restore();
+        }
+
+        const px = player.x;
+        const sliding = player.slideHeld || game.elapsed < player.slideExitUntil;
+        const attackAge = game.elapsed - game.attackAnimationStartedAt;
+        const jumpAge = game.elapsed - game.jumpAnimationStartedAt;
+        const slideAge = game.elapsed - player.slideStartedAt;
+        const attackDuration = (spriteAnimation.manifest?.animation?.rows?.attack?.frames || 4) / (spriteAnimation.manifest?.animation?.rows?.attack?.fps || 10);
+        const jumpDuration = (spriteAnimation.manifest?.animation?.rows?.jump?.frames || 4) / (spriteAnimation.manifest?.animation?.rows?.jump?.fps || 8);
+        let animationState = "idle";
+        let animationAge = performance.now() / 1000;
+        if (game.state === "running") {
+          animationState = "run";
+          animationAge = game.elapsed;
+          if (attackAge >= 0 && attackAge < attackDuration) {
+            animationState = "attack";
+            animationAge = attackAge;
+          } else if (!player.onGround || player.jumpHeight > 0 || (jumpAge >= 0 && jumpAge < jumpDuration)) {
+            animationState = "jump";
+            animationAge = Math.max(0, jumpAge);
+          } else if (sliding) {
+            animationState = "slide";
+            const slideFps = spriteAnimation.manifest?.animation?.rows?.slide?.fps || 8;
+            animationAge = player.slideHeld ? Math.max(0, slideAge) : 3 / slideFps;
+          }
+        }
+        const animation = animationFrame(animationState, animationAge, animationState === "slide" && player.slideHeld ? 2 : Infinity);
+        const spriteHeight = 132;
+        const cell = spriteAnimation.manifest?.cell;
+        const spriteWidth = cell ? spriteHeight * cell.width / cell.height : 106;
+        const spriteY = groundY - spriteHeight - player.jumpHeight;
+        ctx.save();
+        const shadowScale = Math.max(.3, 1 - player.jumpHeight / 220);
+        ctx.fillStyle = `rgba(24, 10, 48, ${.52 * shadowScale})`;
+        ctx.beginPath(); ctx.ellipse(px, groundY - 2, (sliding ? 38 : 29) * shadowScale, 7 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
+        if (animation && assets.spriteAtlas.complete && assets.spriteAtlas.naturalWidth) {
+          ctx.shadowColor = "#e562ff"; ctx.shadowBlur = sliding ? 9 : 14;
+          const frame = animation.frame;
+          ctx.drawImage(assets.spriteAtlas, frame.x, frame.y, frame.w, frame.h, px - spriteWidth / 2, spriteY, spriteWidth, spriteHeight);
+        } else if (sliding && assets.playerSlide.complete && assets.playerSlide.naturalWidth) {
+          ctx.shadowColor = "#e562ff"; ctx.shadowBlur = 9;
+          ctx.drawImage(assets.playerSlide, px - 54, groundY - 69, 108, 69);
+        } else if (assets.player.complete && assets.player.naturalWidth) {
+          ctx.shadowColor = "#e562ff"; ctx.shadowBlur = sliding ? 9 : 14;
+          ctx.drawImage(assets.player, px - spriteWidth / 2, spriteY, spriteWidth, spriteHeight);
+        }
+        ctx.restore();
+      }
+
+      function setState(next) {
+        game.state = next;
+        statusText.textContent = next === "ready" ? "준비 중" : next === "running" ? "달리는 중" : next === "paused" ? "일시정지" : "달리기 종료";
+        overlay.hidden = next === "running";
+        pauseButton.disabled = next !== "running";
+        pauseButton.setAttribute("aria-label", next === "paused" ? "달리기 재개" : "일시정지");
+        pauseButton.title = next === "paused" ? "달리기 재개" : "일시정지";
+        if (next === "ready") {
+          document.querySelector("#dialog-kicker").textContent = "READY, COOKIE?";
+          document.querySelector("#dialog-title").textContent = "젤리 러시!";
+          document.querySelector("#dialog-copy").textContent = "점프로 피하고, 젤리를 모아 장애물을 날려버려요.";
+          startButton.textContent = "달리기 시작";
+        }
+        if (next === "paused") {
+          document.querySelector("#dialog-kicker").textContent = "PAUSED";
+          document.querySelector("#dialog-title").textContent = "잠깐 쉬어가요";
+          document.querySelector("#dialog-copy").textContent = "준비되면 이어서 달릴 수 있어요.";
+          startButton.textContent = "계속 달리기";
+        }
+        if (next === "gameOver") {
+          document.querySelector("#dialog-kicker").textContent = "RUN COMPLETE";
+          document.querySelector("#dialog-title").textContent = "아쉽지만 여기까지!";
+          document.querySelector("#dialog-copy").textContent = `최종 점수 ${formatScore(game.score)} · 젤리 ${game.jellies}개`;
+          startButton.textContent = "다시 달리기";
+        }
+      }
+
+      function formatScore(score) { return String(Math.floor(score)).padStart(6, "0"); }
+
+      function updateScoreUI() {
+        document.querySelector("#score").textContent = formatScore(game.score);
+        document.querySelector("#jellies").textContent = String(game.jellies);
+      }
+
+      function updateGaugeUI() {
+        const gauge = document.querySelector("#gauge");
+        const pips = gauge.querySelectorAll(".pip");
+        pips.forEach((pip, index) => {
+          pip.classList.toggle("filled", index < game.attackCharge);
+          pip.classList.toggle("ready", game.attackCharge === 7 && index < game.attackCharge);
+        });
+        gauge.setAttribute("aria-valuenow", String(game.attackCharge));
+        gauge.setAttribute("aria-valuetext", game.attackCharge === 7 ? "공격 준비" : `${game.attackCharge} / 7`);
+        document.querySelector("#gauge-label").textContent = game.attackCharge === 7 ? "X 키 공격 준비" : `${game.attackCharge} / 7`;
+      }
+
+      function startRun() {
+        if (game.state === "paused") {
+          game.lastFrame = 0;
+          setState("running");
+          return;
+        }
+        if (game.state === "gameOver") resetRun();
+        if (game.state !== "ready") return;
+        game.nextObstacleDistance = game.distance + 400;
+        game.nextJellyDistance = game.distance + 220;
+        setState("running");
+      }
+
+      function resetRun() {
+        game.elapsed = 0; game.scroll = 0; game.distance = 0; game.speed = 280;
+        game.lastFrame = 0; game.attackCharge = 0; game.nextObstacleDistance = 0;
+        game.nextJellyDistance = 220; game.jellies = 0; game.score = 0; game.attackFlash = 0;
+        obstacles.length = 0; jellies.length = 0;
+        player.jumpHeight = 0; player.jumpVelocity = 0; player.slideHeld = false; player.onGround = true;
+        player.slideStartedAt = -Infinity; player.slideExitUntil = 0;
+        game.attackAnimationStartedAt = -Infinity; game.jumpAnimationStartedAt = -Infinity;
+        updateGaugeUI(); updateScoreUI();
+        setState("ready");
+      }
+
+      function jump() {
+        if (game.state === "ready") startRun();
+        if (game.state !== "running" || !player.onGround || player.slideHeld) return;
+        player.jumpVelocity = 650;
+        player.onGround = false;
+        game.jumpAnimationStartedAt = game.elapsed;
+      }
+
+      function slide() {
+        if (game.state !== "running" || !player.onGround) return;
+        player.slideHeld = true;
+        player.slideStartedAt = game.elapsed;
+        player.slideExitUntil = 0;
+      }
+
+      function updatePlayer(dt) {
+        if (player.jumpHeight > 0 || !player.onGround) {
+          player.jumpHeight += player.jumpVelocity * dt;
+          player.jumpVelocity -= 1550 * dt;
+          if (player.jumpHeight <= 0) {
+            player.jumpHeight = 0;
+            player.jumpVelocity = 0;
+            player.onGround = true;
+          }
+        }
+      }
+
+      function getPlayerHitbox() {
+        const groundY = game.height * .81;
+        if (player.slideHeld) {
+          const width = 62;
+          const height = 25;
+          return { x: player.x - width / 2, y: groundY - height, width, height };
+        }
+        const width = 42;
+        const height = 52;
+        return { x: player.x - width / 2, y: groundY - height - player.jumpHeight, width, height };
+      }
+
+      function overlaps(a, b) {
+        return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+      }
+
+      function obstacleHitbox(obstacle) {
+        const groundY = game.height * .81;
+        if (obstacle.type === "low") return { x: obstacle.x + 4, y: groundY - 54, width: obstacle.width - 8, height: 54 };
+        return { x: obstacle.x + 3, y: groundY - 80, width: obstacle.width - 6, height: 31 };
+      }
+
+      function checkObstacleCollision() {
+        const playerBox = getPlayerHitbox();
+        return obstacles.some((obstacle) => overlaps(playerBox, obstacleHitbox(obstacle)));
+      }
+
+      function drawObstacle(obstacle) {
+        const groundY = game.height * .81;
+        if (obstacle.type === "low") {
+          if (assets.berryCrate.complete && assets.berryCrate.naturalWidth) {
+            ctx.drawImage(assets.berryCrate, obstacle.x - 5, groundY - 70, obstacle.width + 10, 70);
+            return;
+          }
+          const y = groundY - 54;
+          const body = ctx.createLinearGradient(obstacle.x, y, obstacle.x + obstacle.width, y + 54);
+          body.addColorStop(0, "#ff8a9f"); body.addColorStop(.5, "#e7448c"); body.addColorStop(1, "#a63079");
+          ctx.fillStyle = "#1a0b36aa";
+          ctx.beginPath(); ctx.ellipse(obstacle.x + obstacle.width / 2, groundY - 1, obstacle.width * .63, 7, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = body;
+          ctx.beginPath(); ctx.roundRect(obstacle.x, y + 12, obstacle.width, 42, 10); ctx.fill();
+          ctx.fillStyle = "#ffcc8a";
+          ctx.beginPath(); ctx.roundRect(obstacle.x - 4, y + 5, obstacle.width + 8, 15, 7); ctx.fill();
+          ctx.fillStyle = "#fff0cb";
+          ctx.beginPath(); ctx.roundRect(obstacle.x + 7, y + 7, obstacle.width - 14, 4, 2); ctx.fill();
+          ctx.fillStyle = "#a52c72";
+          ctx.beginPath(); ctx.roundRect(obstacle.x + 8, y + 34, obstacle.width - 16, 6, 3); ctx.fill();
+          ctx.fillStyle = "#fff3d8";
+          ctx.beginPath(); ctx.arc(obstacle.x + 12, y + 25, 3, 0, Math.PI * 2); ctx.arc(obstacle.x + obstacle.width - 12, y + 25, 3, 0, Math.PI * 2); ctx.fill();
+        } else {
+          if (assets.crystalBar.complete && assets.crystalBar.naturalWidth) {
+            ctx.drawImage(assets.crystalBar, obstacle.x - 6, groundY - 106, obstacle.width + 12, 70);
+            return;
+          }
+          const y = groundY - 80;
+          ctx.fillStyle = "#e3c7ff";
+          ctx.beginPath(); ctx.roundRect(obstacle.x, y + 5, obstacle.width, 13, 7); ctx.fill();
+          ctx.fillStyle = "#8f52d5";
+          ctx.beginPath(); ctx.roundRect(obstacle.x + 5, y + 13, obstacle.width - 10, 15, 7); ctx.fill();
+          ctx.fillStyle = "#d6a9ff";
+          for (let spikeX = obstacle.x + 12; spikeX < obstacle.x + obstacle.width - 5; spikeX += 24) {
+            ctx.beginPath(); ctx.moveTo(spikeX, y + 25); ctx.lineTo(spikeX + 8, y + 44); ctx.lineTo(spikeX + 16, y + 25); ctx.closePath(); ctx.fill();
+          }
+          ctx.fillStyle = "#f9e5ff";
+          ctx.beginPath(); ctx.roundRect(obstacle.x + 13, y + 7, obstacle.width * .34, 3, 2); ctx.fill();
+        }
+      }
+
+      function spawnObstacle() {
+        const type = Math.random() < .55 ? "low" : "overhead";
+        obstacles.push({ type, x: game.width + 36, width: type === "low" ? 52 : 88 });
+      }
+
+      function spawnJelly() {
+        const groundY = game.height * .81;
+        const airborne = Math.random() < .35;
+        jellies.push({ x: game.width + 30, y: groundY - (airborne ? 112 : 48), radius: 13, collected: false });
+      }
+
+      function drawJelly(jelly) {
+        ctx.save();
+        ctx.translate(jelly.x, jelly.y);
+        ctx.rotate(Math.sin(game.elapsed * 5 + jelly.x * .02) * .12);
+        const size = jelly.radius * 3;
+        if (assets.jelly.complete && assets.jelly.naturalWidth) {
+          ctx.shadowColor = "#6bf5ff"; ctx.shadowBlur = 12;
+          ctx.drawImage(assets.jelly, -size / 2, -size / 2, size, size);
+        } else {
+          ctx.fillStyle = "#53eaff";
+          ctx.beginPath(); ctx.arc(0, 0, jelly.radius, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function updateJellies(dt) {
+        if (game.distance >= game.nextJellyDistance) {
+          spawnJelly();
+          game.nextJellyDistance = game.distance + 190 + Math.random() * 95;
+        }
+        const playerBox = getPlayerHitbox();
+        jellies.forEach((jelly) => {
+          jelly.x -= game.speed * dt;
+          const box = { x: jelly.x - jelly.radius, y: jelly.y - jelly.radius, width: jelly.radius * 2, height: jelly.radius * 2 };
+          if (!jelly.collected && overlaps(playerBox, box)) {
+            jelly.collected = true;
+            game.jellies += 1;
+            game.attackCharge = Math.min(7, game.attackCharge + 1);
+            game.score += 100;
+            updateGaugeUI(); updateScoreUI();
+            statusText.textContent = game.attackCharge === 7 ? "공격 준비 완료! X 키를 누르세요" : `젤리 획득! 게이지 ${game.attackCharge} / 7`;
+          }
+        });
+        for (let i = jellies.length - 1; i >= 0; i--) {
+          if (jellies[i].collected || jellies[i].x + jellies[i].radius < -10) jellies.splice(i, 1);
+        }
+      }
+
+      function attack() {
+        if (game.state !== "running" || game.attackCharge < 7) return;
+        const attackStart = player.x + 20;
+        const attackEnd = player.x + ATTACK_RANGE;
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+          const obstacle = obstacles[i];
+          const obstacleCenter = obstacle.x + obstacle.width / 2;
+          if (obstacleCenter >= attackStart && obstacleCenter <= attackEnd) obstacles.splice(i, 1);
+        }
+        game.attackCharge = 0;
+        game.attackFlash = .24;
+        game.attackAnimationStartedAt = game.elapsed;
+        updateGaugeUI();
+        statusText.textContent = "쿠키 블라스트!";
+      }
+
+      function updateObstacles(dt) {
+        if (game.distance >= game.nextObstacleDistance) {
+          spawnObstacle();
+          game.nextObstacleDistance = game.distance + 560 + Math.random() * 160;
+        }
+        obstacles.forEach((obstacle) => { obstacle.x -= game.speed * dt; });
+        while (obstacles.length && obstacles[0].x + obstacles[0].width < -20) obstacles.shift();
+      }
+
+      function frame(timestamp) {
+        const dt = game.lastFrame ? Math.min((timestamp - game.lastFrame) / 1000, .05) : 0;
+        game.lastFrame = timestamp;
+        if (game.state === "running") {
+          game.elapsed += dt;
+          game.scroll += game.speed * dt;
+          game.distance += game.speed * dt;
+          game.score += game.speed * dt * .1;
+          game.attackFlash = Math.max(0, game.attackFlash - dt);
+          updatePlayer(dt);
+          updateObstacles(dt);
+          updateJellies(dt);
+          updateScoreUI();
+          if (checkObstacleCollision()) {
+            setState("gameOver");
+          }
+        }
+        drawScene();
+        requestAnimationFrame(frame);
+      }
+
+      startButton.addEventListener("click", startRun);
+      pauseButton.addEventListener("click", () => {
+        if (game.state === "running") setState("paused");
+        else if (game.state === "paused") startRun();
+      });
+      window.addEventListener("keydown", (event) => {
+        if (["Space", "ArrowUp", "ArrowDown", "KeyX"].includes(event.code)) event.preventDefault();
+        if (event.repeat) return;
+        if (event.code === "Space" || event.code === "ArrowUp") jump();
+        if (event.code === "ArrowDown") slide();
+        if (event.code === "KeyX") attack();
+      });
+      window.addEventListener("keyup", (event) => {
+        if (event.code === "ArrowDown" && player.slideHeld) {
+          player.slideHeld = false;
+          player.slideExitUntil = game.elapsed + 1 / (spriteAnimation.manifest?.animation?.rows?.slide?.fps || 8);
+        }
+      });
+      window.addEventListener("blur", () => {
+        if (player.slideHeld) player.slideExitUntil = game.elapsed + 1 / (spriteAnimation.manifest?.animation?.rows?.slide?.fps || 8);
+        player.slideHeld = false;
+      });
+      updateGaugeUI();
+      updateScoreUI();
+      requestAnimationFrame(frame);
+    </script>
+  </body>
+</html>

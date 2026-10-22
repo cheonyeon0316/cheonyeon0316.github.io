@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 112" fill="none">
+  <defs>
+    <linearGradient id="wave" x1="4" y1="56" x2="320" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff64c8" stop-opacity="0"/><stop offset=".23" stop-color="#ff68db" stop-opacity=".8"/><stop offset=".72" stop-color="#78f6ff"/><stop offset="1" stop-color="#f7ffff" stop-opacity=".15"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0" cy="0" r="1" gradientTransform="matrix(260 0 0 41 25 56)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff8be5" stop-opacity=".08"/><stop offset=".58" stop-color="#bc63ff" stop-opacity=".64"/><stop offset=".88" stop-color="#6af5ff" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-10%" y="-100%" width="120%" height="300%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <path d="M6 56c52-33 103-39 153-22s100 28 155 12v20c-59 19-103 16-157 2S59 48 6 80V56Z" fill="#d25dff" opacity=".58" filter="url(#blur)"/>
+  <path d="M2 56c48-25 94-27 146-12 56 16 105 23 172 7v12c-66 17-115 12-172-2C95 49 50 51 2 70V56Z" fill="url(#core)"/>
+  <path d="M10 57c58-15 102-14 150 0 49 14 98 16 153 4" stroke="url(#wave)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M33 46 50 42l-7 12 16-4m24 34 10-14 3 13 15-7m48-45 11 12-2-15 16 8m25 42 13-11 2 13 15-6m28-42 12 10 3-14 12 5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+  <path d="m64 25 5 10 11 1-8 7 2 11-10-6-9 6 2-11-8-7 11-1 4-10Zm175 48 4 8 9 1-6 6 1 9-8-4-7 4 1-9-6-6 9-1 3-8Z" fill="#fff7bd"/>
+  <circle cx="133" cy="47" r="4" fill="#fff"/><circle cx="214" cy="68" r="3" fill="#ffb6f5"/><circle cx="291" cy="43" r="3" fill="#fff"/>
+</svg>

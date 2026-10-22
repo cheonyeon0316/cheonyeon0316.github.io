@@ -1,0 +1,181 @@
+{
+  "ok": true,
+  "engine": "component-row",
+  "kind": "sprite-gen-inspect-report",
+  "run_dir": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier",
+  "states": [
+    "idle",
+    "run",
+    "jump",
+    "slide",
+    "attack"
+  ],
+  "thresholds": {
+    "histogram_min": 0.0,
+    "dhash_min": 0.55,
+    "motion_min": 0.01
+  },
+  "rows": [
+    {
+      "state": "idle",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/idle/frame-0.png",
+        "frames/idle/frame-1.png",
+        "frames/idle/frame-2.png",
+        "frames/idle/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.971776685251998,
+          "mean": 0.9785610839646216
+        },
+        "dhash_similarity": {
+          "min": 0.921875,
+          "mean": 0.9505208333333334
+        },
+        "motion_presence": 0.06557449640012256,
+        "centroid_sigma": {
+          "x": 0.5290071093495196,
+          "y": 2.7757460546676214
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "run",
+      "source": "frames",
+      "expected_frames": 8,
+      "found_frames": 8,
+      "natural_pose_count": 8,
+      "frame_files": [
+        "frames/run/frame-0.png",
+        "frames/run/frame-1.png",
+        "frames/run/frame-2.png",
+        "frames/run/frame-3.png",
+        "frames/run/frame-4.png",
+        "frames/run/frame-5.png",
+        "frames/run/frame-6.png",
+        "frames/run/frame-7.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.923798267166094,
+          "mean": 0.9536378081719346
+        },
+        "dhash_similarity": {
+          "min": 0.828125,
+          "mean": 0.9095982142857143
+        },
+        "motion_presence": 0.11410637008709734,
+        "centroid_sigma": {
+          "x": 6.045348846325612,
+          "y": 4.694109830750788
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "jump",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/jump/frame-0.png",
+        "frames/jump/frame-1.png",
+        "frames/jump/frame-2.png",
+        "frames/jump/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.8918833694566474,
+          "mean": 0.919549579868183
+        },
+        "dhash_similarity": {
+          "min": 0.875,
+          "mean": 0.8958333333333334
+        },
+        "motion_presence": 0.15112256816789216,
+        "centroid_sigma": {
+          "x": 10.924355575343014,
+          "y": 11.279175332747062
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "slide",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/slide/frame-0.png",
+        "frames/slide/frame-1.png",
+        "frames/slide/frame-2.png",
+        "frames/slide/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9129149239184202,
+          "mean": 0.9328442948160431
+        },
+        "dhash_similarity": {
+          "min": 0.84375,
+          "mean": 0.8880208333333334
+        },
+        "motion_presence": 0.14543903824550652,
+        "centroid_sigma": {
+          "x": 5.234436230709349,
+          "y": 14.542661834144177
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "attack",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/attack/frame-0.png",
+        "frames/attack/frame-1.png",
+        "frames/attack/frame-2.png",
+        "frames/attack/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9548070029527848,
+          "mean": 0.9667398716611976
+        },
+        "dhash_similarity": {
+          "min": 0.921875,
+          "mean": 0.9427083333333334
+        },
+        "motion_presence": 0.07551772173713235,
+        "centroid_sigma": {
+          "x": 4.759148269718718,
+          "y": 0.4552010345695928
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

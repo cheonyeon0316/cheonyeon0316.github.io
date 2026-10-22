@@ -1,0 +1,60 @@
+{
+  "ok": true,
+  "kind": "sprite-gen-score-report",
+  "source_report": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier",
+  "overall_score": 100.0,
+  "candidate_rank": 2400,
+  "rows": [
+    {
+      "state": "idle",
+      "score": 100.0,
+      "candidate_rank": 400,
+      "expected_frames": 4,
+      "found_frames": 4,
+      "errors": [],
+      "warnings": [],
+      "hints": []
+    },
+    {
+      "state": "run",
+      "score": 100.0,
+      "candidate_rank": 800,
+      "expected_frames": 8,
+      "found_frames": 8,
+      "errors": [],
+      "warnings": [],
+      "hints": []
+    },
+    {
+      "state": "jump",
+      "score": 100.0,
+      "candidate_rank": 400,
+      "expected_frames": 4,
+      "found_frames": 4,
+      "errors": [],
+      "warnings": [],
+      "hints": []
+    },
+    {
+      "state": "slide",
+      "score": 100.0,
+      "candidate_rank": 400,
+      "expected_frames": 4,
+      "found_frames": 4,
+      "errors": [],
+      "warnings": [],
+      "hints": []
+    },
+    {
+      "state": "attack",
+      "score": 100.0,
+      "candidate_rank": 400,
+      "expected_frames": 4,
+      "found_frames": 4,
+      "errors": [],
+      "warnings": [],
+      "hints": []
+    }
+  ],
+  "hints": []
+}

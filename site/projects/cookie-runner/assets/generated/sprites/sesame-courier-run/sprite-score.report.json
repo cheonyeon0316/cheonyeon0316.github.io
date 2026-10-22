@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "kind": "sprite-gen-score-report",
+  "source_report": "C:\\Codex\\1022\\site\\projects\\cookie-runner\\assets\\generated\\sprites\\sesame-courier-run",
+  "overall_score": 100.0,
+  "candidate_rank": 800,
+  "rows": [
+    {
+      "state": "run",
+      "score": 100.0,
+      "candidate_rank": 800,
+      "expected_frames": 8,
+      "found_frames": 8,
+      "errors": [],
+      "warnings": [],
+      "hints": []
+    }
+  ],
+  "hints": []
+}

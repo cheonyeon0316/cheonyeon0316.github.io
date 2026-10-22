@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 110" fill="none">
+  <defs>
+    <linearGradient id="beam" x1="16" y1="15" x2="165" y2="49" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f5d8ff"/><stop offset=".5" stop-color="#af70ed"/><stop offset="1" stop-color="#673cc1"/>
+    </linearGradient>
+    <linearGradient id="crystal" x1="68" y1="60" x2="93" y2="105" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#bdffff"/><stop offset=".42" stop-color="#58edff"/><stop offset="1" stop-color="#288cc9"/>
+    </linearGradient>
+    <filter id="shine" x="-25%" y="-40%" width="150%" height="190%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <ellipse cx="90" cy="25" rx="73" ry="13" fill="#b981ff" opacity=".55" filter="url(#shine)"/>
+  <path d="M12 18c0-7 5-12 12-12h132c7 0 12 5 12 12v19H12V18Z" fill="url(#beam)" stroke="#4c267f" stroke-width="4"/>
+  <path d="M26 13h84" stroke="#fff0ff" stroke-width="5" stroke-linecap="round" opacity=".88"/>
+  <path d="M34 36v13m112-13v13" stroke="#e7bdff" stroke-width="7" stroke-linecap="round"/>
+  <path d="m37 43 17 3-10 13-7-16Zm36 4 17-4-4 18-13-14Zm39-3 17 2-12 14-5-16Z" fill="#efddff" stroke="#693dac" stroke-width="3" stroke-linejoin="round"/>
+  <path d="m66 44 24 4 18-4-7 34-16 25-15-24-4-35Z" fill="url(#crystal)" stroke="#145d9b" stroke-width="4" stroke-linejoin="round"/>
+  <path d="m66 44 19 4 2 55-15-24-4-35Z" fill="#eaffff" opacity=".45"/>
+  <path d="m90 48 18-4-7 34-14 25 3-55Z" fill="#4774e8" opacity=".44"/>
+  <path d="m72 54 11 3" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+</svg>

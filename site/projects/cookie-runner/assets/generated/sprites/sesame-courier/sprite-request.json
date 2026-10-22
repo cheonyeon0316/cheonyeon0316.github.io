@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "kind": "sprite-gen-request",
+  "engine": "component-row",
+  "character": {
+    "id": "sesame-courier",
+    "description": "Glossy cocoa black-sesame macaron courier with cream face, large brown eyes, white jeweled baker toque, and shiny berry-red scarf.",
+    "base_image": "base-source.png"
+  },
+  "cell": {
+    "shape": "rect",
+    "width": 256,
+    "height": 320,
+    "safe_margin_x": 14,
+    "safe_margin_y": 14
+  },
+  "chroma_key": {
+    "name": "green",
+    "hex": "#00FF00",
+    "rgb": [
+      0,
+      255,
+      0
+    ],
+    "selection": "auto",
+    "score": 232.86,
+    "min_subject_distance": 220.37,
+    "background": {
+      "mode": "transparent",
+      "opaque_border_fraction": 0.052,
+      "subject_pixels": 28261
+    },
+    "candidates": [
+      {
+        "name": "magenta",
+        "hex": "#FF00FF",
+        "score": 144.53,
+        "min_subject_distance": 61.4,
+        "clears_erase_radius": false
+      },
+      {
+        "name": "green",
+        "hex": "#00FF00",
+        "score": 232.86,
+        "min_subject_distance": 220.37,
+        "clears_erase_radius": true
+      },
+      {
+        "name": "cyan",
+        "hex": "#00FFFF",
+        "score": 226.64,
+        "min_subject_distance": 184.72,
+        "clears_erase_radius": true
+      },
+      {
+        "name": "blue",
+        "hex": "#004DFF",
+        "score": 190.32,
+        "min_subject_distance": 118.08,
+        "clears_erase_radius": true
+      }
+    ],
+    "selection_reason": "highest 1st-percentile subject distance among the 3 candidate(s) clearing the 96 erase radius"
+  },
+  "states": {
+    "idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "Subtle breathing and one blink, with both feet planted; keep the body in place."
+    },
+    "run": {
+      "frames": 8,
+      "fps": 10,
+      "loop": true,
+      "action": "An eight-frame seamless rightward running cycle. The first and eighth poses should be near-matching right-foot-forward contact poses so the loop closes cleanly; between them show alternating foot contacts, passing poses and airborne phases with opposite arm swings and scarf trailing left. Keep anatomy stable."
+    },
+    "jump": {
+      "frames": 4,
+      "fps": 8,
+      "loop": false,
+      "action": "A complete short jump: crouch, takeoff, compact airborne pose, then landing recovery; distinct readable silhouette in each frame."
+    },
+    "slide": {
+      "frames": 4,
+      "fps": 8,
+      "loop": false,
+      "action": "A low forward slide under an obstacle: standing anticipation, body tucked close to the ground with scarf streaming behind, held low pose, then rise; keep the whole character visible."
+    },
+    "attack": {
+      "frames": 4,
+      "fps": 10,
+      "loop": false,
+      "action": "An energetic forward magic strike: brief windup, decisive rightward punch with one arm, held strike, recovery; no detached effects or props."
+    }
+  },
+  "style": "Polished glossy soft 3D mobile game render matching the accepted idle image.",
+  "layout": "taxonomy/v1",
+  "fit": {
+    "align_x": "foot-centroid",
+    "align_y": "bottom",
+    "ground_frames": false
+  },
+  "chroma": {
+    "mode": "rgb",
+    "unmix_reach": 4,
+    "spill_max_fraction": 0.005
+  }
+}
